@@ -88,16 +88,10 @@ public class Espetaculo {
 		
 		Sessao s = new Sessao();
 		
-		if(diffDays == 0)
-			diffDays = 1;
-		
-		
-		for(int i = 0; i < diffDays; i++) {
+		for(int i = 0; i <= diffDays; i+=diaria.getDias()) {
 			inicio.plusDays(i);
 			s.setInicio(inicio.toDateTime(horario));
 			lSessoes.add(s);
-			if(diaria == Periodicidade.SEMANAL)
-				i += 6;
 		}
 
 		return lSessoes;

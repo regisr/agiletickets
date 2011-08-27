@@ -40,7 +40,7 @@ public class EspetaculosTest {
 		
 		List<Sessao> sessoes = e.criaSessoes(inicio, fim, horario, Periodicidade.DIARIA);
 		
-		assertEquals(4, sessoes.size());
+		assertEquals(5, sessoes.size());
 		
 	}
 	
@@ -53,7 +53,7 @@ public class EspetaculosTest {
 		
 		List<Sessao> sessoes = e.criaSessoes(inicio, fim, horario, Periodicidade.SEMANAL);
 		
-		assertEquals(2, sessoes.size());
+		assertEquals(3, sessoes.size());
 	}
 
 }
