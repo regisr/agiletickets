@@ -28,6 +28,10 @@ public class EspetaculosController {
 	private final Agenda agenda;
 	private Validator validator;
 	private Result result;
+<<<<<<< HEAD
+=======
+
+>>>>>>> f4a786286b60589cb3da15503f3e1084bf93c4c8
 	private final DiretorioDeEstabelecimentos estabelecimentos;
 
 	public EspetaculosController(Agenda agenda, DiretorioDeEstabelecimentos estabelecimentos, Validator validator, Result result) {
@@ -115,4 +119,8 @@ public class EspetaculosController {
 		validator.onErrorUse(status()).notFound();
 		return espetaculo;
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> f4a786286b60589cb3da15503f3e1084bf93c4c8
 }
