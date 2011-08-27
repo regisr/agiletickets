@@ -12,23 +12,24 @@ import br.com.caelum.vraptor.util.jpa.EntityManagerCreator;
 import br.com.caelum.vraptor.util.jpa.EntityManagerFactoryCreator;
 
 public class PreencheBanco {
-
+	
+	private static EntityManagerFactoryCreator creator;
+	private static EntityManagerCreator managerCreator;
+	private static EntityManager manager;
+	private static Estabelecimento estabelecimento;
+	private static Espetaculo espetaculo;
+	
 	public static void main(String[] args) {
-		EntityManagerFactoryCreator creator = new EntityManagerFactoryCreator();
-		creator.create();
-		EntityManagerCreator managerCreator = new EntityManagerCreator(creator.getInstance());
-		managerCreator.create();
-		EntityManager manager = managerCreator.getInstance();
-
+		
+		InitializeObjects();
+		
 		manager.getTransaction().begin();
 		manager.createQuery("delete from Sessao").executeUpdate();
 		manager.createQuery("delete from Espetaculo").executeUpdate();
 		manager.createQuery("delete from Estabelecimento").executeUpdate();
-		Estabelecimento estabelecimento = new Estabelecimento();
+		
 		estabelecimento.setNome("Casa de shows");
 		estabelecimento.setEndereco("Rua dos Silveiras, 12345");
-
-		Espetaculo espetaculo = new Espetaculo();
 		espetaculo.setEstabelecimento(estabelecimento);
 		espetaculo.setNome("Depeche Mode");
 		espetaculo.setTipo(TipoDeEspetaculo.SHOW);
@@ -36,6 +37,13 @@ public class PreencheBanco {
 		manager.persist(estabelecimento);
 		manager.persist(espetaculo);
 
+		adicionaEspetaculo();
+
+		manager.getTransaction().commit();
+		manager.close();
+	}
+
+	private static void adicionaEspetaculo() {
 		for (int i = 0; i < 10; i++) {
 			Sessao sessao = new Sessao();
 			sessao.setEspetaculo(espetaculo);
@@ -45,8 +53,15 @@ public class PreencheBanco {
 			sessao.setIngressosReservados(10 - i);
 			manager.persist(sessao);
 		}
+	}
 
-		manager.getTransaction().commit();
-		manager.close();
+	private static void InitializeObjects() {
+		creator = new EntityManagerFactoryCreator();
+		creator.create();
+		managerCreator = new EntityManagerCreator(creator.getInstance());
+		managerCreator.create();
+		manager = managerCreator.getInstance();
+		estabelecimento = new Estabelecimento();
+		espetaculo = new Espetaculo();
 	}
 }

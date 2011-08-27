@@ -64,6 +64,7 @@ public class EspetaculosController {
 		if (sessao == null) {
 			result.notFound();
 		}
+
 		result.include("sessao", sessao);
 		return sessao;
 	}
@@ -89,10 +90,8 @@ public class EspetaculosController {
 	}
 
 	@Get @Path("/espetaculo/{espetaculoId}/sessoes")
-	public void sessoes(Long espetaculoId) {
-		Espetaculo espetaculo = carregaEspetaculo(espetaculoId);
-
-		result.include("espetaculo", espetaculo);
+	public void getSessoes(Long espetaculoId) {
+		result.include("espetaculo", carregaEspetaculo(espetaculoId));
 	}
 
 
