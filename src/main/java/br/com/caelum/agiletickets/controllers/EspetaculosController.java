@@ -59,22 +59,18 @@ public class EspetaculosController {
 
 
 	@Get @Path("/sessao/{id}")
-	public void sessao(Long id) {
+	public Sessao iniciaSessao(Long id) {
 		Sessao sessao = agenda.sessao(id);
 		if (sessao == null) {
 			result.notFound();
 		}
-
 		result.include("sessao", sessao);
+		return sessao;
 	}
 
 	@Post @Path("/sessao/{sessaoId}/reserva")
 	public void reserva(Long sessaoId, final Integer quantidade) {
-		Sessao sessao = agenda.sessao(sessaoId);
-		if (sessao == null) {
-			result.notFound();
-			return;
-		}
+		Sessao sessao = iniciaSessao(sessaoId);
 
 		if (quantidade < 1) {
 			validator.add(new ValidationMessage("Você deve escolher um lugar ou mais", ""));
@@ -84,7 +80,7 @@ public class EspetaculosController {
 			validator.add(new ValidationMessage("Não existem ingressos disponíveis", ""));
 		}
 
-		validator.onErrorRedirectTo(this).sessao(sessao.getId());
+		validator.onErrorRedirectTo(this).iniciaSessao(sessao.getId());
 
 		sessao.reserva(quantidade);
 		result.include("message", "Sessao reservada com sucesso");
